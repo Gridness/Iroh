@@ -1,0 +1,2 @@
+TOKEN = 'NzE0MTQ2MjM2NDA3NjExMzky.XstbLA.2McxbUVB4TEzW6prsJh8mMEDEts'
+PREFIX = 'iroh '
