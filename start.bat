@@ -1,1 +1,2 @@
-node bot.js
+py bot.py
+PAUSE
