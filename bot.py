@@ -22,7 +22,7 @@ import json
 with open('data.json', 'r') as data_file:
     data = json.load(data_file)
 
-client = commands.Bot(command_prefix=None)
+client = commands.Bot(command_prefix="!")
 
 cogs = [Ready, Ping, Status, Music, Pause, Resume, Stop, Skip, Queue, NowPlaying]
 

@@ -6,6 +6,6 @@ def play_next(vc, song_queue, FFMPEG_OPTIONS):
         IsPlaying().is_paying = True
         extracted_url = song_queue[0][0]['source']
         song_queue.pop(0)
-        vc.play(discord.FFmpegAudio(extracted_url, **FFMPEG_OPTIONS), after=lambda e: play_next())
+        vc.play(discord.FFmpegAudio(extracted_url, **FFMPEG_OPTIONS), after=lambda e: play_next(vc, song_queue, FFMPEG_OPTIONS))
     else:
-        IsPlaying().is_paying= False
+        IsPlaying().is_paying = False

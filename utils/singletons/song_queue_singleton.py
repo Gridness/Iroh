@@ -6,3 +6,7 @@ class SongQueue():
         if not hasattr(cls, 'instance'):
             cls.instance = super(SongQueue, cls).__new__(cls)
         return cls.instance
+
+    @property
+    def length(self):
+        return len(self.song_queue)

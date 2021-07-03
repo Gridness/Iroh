@@ -1,4 +1,3 @@
-from os import name
 import discord
 from discord.ext import commands, tasks
 import random
@@ -14,4 +13,4 @@ class Status(commands.Cog, name='Status'):
 
     @tasks.loop(seconds=20.0)
     async def change_status(self):
-        await self.client.change_presence(activity=discord.Game(random.choice(utils.phrases.status)))
+        await self.client.change_presence(activity=discord.Game(random.choice(utils.phrases.status.status)))
