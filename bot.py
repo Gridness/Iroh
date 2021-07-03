@@ -14,7 +14,7 @@ from commands.pause import Pause
 from commands.resume import Resume
 from tasks.status_loop import Status
 from events.ready import Ready
-# import os -> auto import new cogs
+# import os -> auto load all cogs (I'm just too stupid to do this)
 
 from discord.ext import commands
 import json

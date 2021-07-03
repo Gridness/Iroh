@@ -1,3 +1,4 @@
+from utils.music_handling.play_music import play_music
 import discord
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext, cog_ext
@@ -7,6 +8,7 @@ import youtube_dl
 import random
 
 from utils.build_embed import build_embed
+from utils.music_handling.search_yt import search_yt
 from utils.phrases import *
 
 
@@ -15,52 +17,70 @@ class Music(commands.Cog):
         self.client = client
         self.slash = SlashCommand(self.client, sync_commands=True)
         self.is_playing = False
-        self.song_queue = {}
+        self.song_queue = []
         self.FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 
         'options': '-vn'}
         self.YTDL_OPTIONS = {'format': 'bestaudio', 'skip_download': True}
+        self.vc = ""
 
     def setup(client):
         client.add_cog(Music(client))
 
+    # def play_next(self):
+    #     if len(self.song_queue) > 0:
+    #         self.is_playing = True
+# 
+    #         extracted_url = self.song_queue[0][0]['source']
+# 
+    #         self.song_queue.pop(0)
+# 
+    #         self.vc.play(discord.FFmpegAudio(extracted_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
+    #     else:
+    #         self.is_playing = False
+
+    # async def play_music(self):
+    #     if len(self.song_queue) > 0:
+    #         self.is_playing = True
+    #         
+    #         extracted_url = self.song_queue[0][0]['source'] 
+# 
+    #         if self.vc == "" or not not self.vc.is_connected():
+    #             self.vc = await self.song_queue[0][1].connect()
+    #         else:
+    #             self.vc = await self.client.move_to(self.song_queue[0][1])
+# 
+    #         print(self.song_queue)
+    #         self.song_queue.pop(0)
+# 
+    #         self.vc.play(discord.FFmpegAudio(extracted_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
+    #     else:
+    #         self.is_playing = False
+
     @cog_ext.cog_slash(
         name="play",
-        description="Начнем музыкальную ночь!",
-        options=[
-            create_option(
-                name="url",
-                description="Хочешь что-то конкретное?",
-                option_type=SlashCommandOptionType.STRING,
-                required=False
-            )
-        ]
+        description="Начнем музыкальную ночь!"
+        # options=[
+        #     create_option(
+        #         name="url",
+        #         description="Хочешь что-то конкретное?",
+        #         option_type=SlashCommandOptionType.STRING,
+        #         required=False
+        #     )
+        # ]
     )
-    async def play(self, ctx: SlashContext, url):
-        if ctx.author.voice is None:
-            await ctx.send(build_embed(self.client, random.choice(errorPhrases), "Нельзя слушать музыку с закрытыми ушами!", discord.Color.red, False, False))
-    
+    async def play(self, ctx: SlashContext, *args):
+        query = " ".join(args)
+
         voice_channel = ctx.author.voice.channel
-        if ctx.voice_client is None:
-            await voice_channel.connect()
+        if voice_channel is None:
+            await ctx.send(build_embed())
         else:
-            await ctx.voice_client.move_to(voice_channel)
+            song = search_yt(self.YTDL_OPTIONS, query)
+            if type(song) == type(True):
+                await ctx.send(build_embed())
+            else:
+                await ctx.send(build_embed())
+                self.song_queue.append([song, voice_channel])
 
-        vc = ctx.voice_client
-        if url is not None:
-            with youtube_dl.YoutubeDL(self.YTDL_OPTIONS) as ydl:
-                info = ydl.extract_info(url, download=False)
-                url2 = info['formats'][0]['url']
-                source = await discord.FFmpegOpusAudio.from_probe(url2, **self.FFMPEG_OPTIONS)
-                vc.play(source)
-                await ctx.send(build_embed(self.client, random.choice(playPhrases), info.get('title', None), discord.Color.orange, False, True, str(self.client.user)),
-                components=[
-                    Button(style=ButtonStyle.green, label="Пауза"),
-                    Button(style=ButtonStyle.red, label="Остановить"),
-                    Button(style=ButtonStyle.blue, label="Пропустить")
-                ])
-        else:
-            with youtube_dl.YoutubeDL(self.YTDL_OPTIONS) as ydl:
-                search_info = ydl.extract_info("ytsearch:eraser f64")
-
-                for i in search_info:
-                    print(i)
+                if self.is_playing is False:
+                    await play_music(self.client, self.vc, self.song_queue, self.FFMPEG_OPTIONS)
