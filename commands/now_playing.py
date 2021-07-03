@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 from discord_slash import SlashContext, cog_ext
 
@@ -17,4 +16,4 @@ class NowPlaying(commands.Cog):
         description="Хочешь узнать, под что сейчас пляшем?"
     )
     async def now_playing(self, ctx: SlashContext):
-        pass
+        await ctx.send(build_embed())

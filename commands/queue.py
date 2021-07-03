@@ -1,7 +1,5 @@
-import discord
 from discord.ext import commands
 from discord_slash import SlashContext, cog_ext
-import datetime
 
 from utils.build_embed import build_embed
 from utils.command_log import command_log
