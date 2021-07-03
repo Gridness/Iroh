@@ -1,0 +1,5 @@
+discord.py==1.7.3
+youtube_dl==2021.6.6
+discord_py_slash_command==2.0.4
+discord_components==1.0.0
+discord==1.7.3
