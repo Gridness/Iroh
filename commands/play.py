@@ -1,4 +1,3 @@
-from utils.music_handling.play_music import play_music
 import discord
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext, cog_ext
@@ -9,15 +8,16 @@ import random
 
 from utils.build_embed import build_embed
 from utils.music_handling.search_yt import search_yt
+from utils.command_log import command_log
 from utils.phrases import *
 
+from utils.singletons.song_queue_singleton import SongQueue
+from utils.music_handling.play_music import play_music
 
 class Music(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.slash = SlashCommand(self.client, sync_commands=True)
-        self.is_playing = False
-        self.song_queue = []
         self.FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 
         'options': '-vn'}
         self.YTDL_OPTIONS = {'format': 'bestaudio', 'skip_download': True}
@@ -69,6 +69,8 @@ class Music(commands.Cog):
         # ]
     )
     async def play(self, ctx: SlashContext, *args):
+        command_log("play", ctx)
+
         query = " ".join(args)
 
         voice_channel = ctx.author.voice.channel
@@ -80,7 +82,7 @@ class Music(commands.Cog):
                 await ctx.send(build_embed())
             else:
                 await ctx.send(build_embed())
-                self.song_queue.append([song, voice_channel])
+                SongQueue().song_queue.append([song, voice_channel])
 
                 if self.is_playing is False:
-                    await play_music(self.client, self.vc, self.song_queue, self.FFMPEG_OPTIONS)
+                    await play_music(self.client, self.vc, SongQueue().song_queue, self.FFMPEG_OPTIONS)

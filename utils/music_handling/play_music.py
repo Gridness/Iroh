@@ -1,6 +1,6 @@
 from utils.music_handling.play_next import play_next
 import discord
-from utils.is_playing_state_singleton import IsPlaying
+from utils.singletons.is_playing_state_singleton import IsPlaying
 
 async def play_music(client, vc, song_queue, FFMPEG_OPTIONS):
     if len(song_queue) > 0:

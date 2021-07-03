@@ -1,4 +1,4 @@
-from utils.is_playing_state_singleton import IsPlaying
+from utils.singletons.is_playing_state_singleton import IsPlaying
 import discord
 
 def play_next(vc, song_queue, FFMPEG_OPTIONS):
