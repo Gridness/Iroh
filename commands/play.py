@@ -1,9 +1,8 @@
 import discord
-from discord import utils
-from discord import guild
 from discord.ext import commands
-from discord_slash import SlashContext, cog_ext
+from discord_slash import SlashCommand, SlashContext, cog_ext
 from discord_slash.utils.manage_commands import create_choice, create_option, SlashCommandOptionType
+from discord_components import DiscordComponents, Button, ButtonStyle
 import youtube_dl
 import random
 
@@ -14,6 +13,7 @@ from utils.phrases import *
 class Music(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.slash = SlashCommand(self.client, sync_commands=True)
         self.is_playing = False
         self.song_queue = {}
         self.FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 
@@ -52,7 +52,12 @@ class Music(commands.Cog):
                 url2 = info['formats'][0]['url']
                 source = await discord.FFmpegOpusAudio.from_probe(url2, **self.FFMPEG_OPTIONS)
                 vc.play(source)
-                await ctx.send(build_embed(self.client, random.choice(playPhrases), info.get('title', None), discord.Color.orange, False, True, str(self.client.user)))
+                await ctx.send(build_embed(self.client, random.choice(playPhrases), info.get('title', None), discord.Color.orange, False, True, str(self.client.user)),
+                components=[
+                    Button(style=ButtonStyle.green, label="Пауза"),
+                    Button(style=ButtonStyle.red, label="Остановить"),
+                    Button(style=ButtonStyle.blue, label="Пропустить")
+                ])
         else:
             with youtube_dl.YoutubeDL(self.YTDL_OPTIONS) as ydl:
                 search_info = ydl.extract_info("ytsearch:eraser f64")
