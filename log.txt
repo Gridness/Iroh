@@ -1,0 +1,18 @@
+[4.7.2021 | 13:27:08] Bot has been started
+[13:27:08] Ping: 151.62 ms
+[4.7.2021 | 13:28:50] Bot has been started
+[13:28:50] Ping: 160.12 ms
+[13:29:50] Ping: 149.56 ms
+[13:30:50] Ping: 372.95 ms
+[13:31:50] Ping: 148.62 ms
+[4.7.2021 | 13:37:28] Bot has been started
+[13:37:28] Ping: 151.14 ms
+[4.7.2021 | 13:39:22] Bot has been started
+[13:39:22] Ping: 152.0 ms
+[4.7.2021 | 13:41:04] Bot has been started
+[13:41:04] Ping: 150.4 ms
+[4.7.2021 | 13:43:11] Bot has been started
+[13:43:11] Ping: 150.12 ms
+[4.7.2021 | 13:44:49] Bot has been started
+[13:44:49] Ping: 159.34 ms
+[13:45:01] Gridness#5821 tried to execute /play command

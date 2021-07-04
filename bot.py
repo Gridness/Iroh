@@ -4,12 +4,13 @@ Iroh 4.0 © Gridness 2020 - 2021
 This software is licensed under the MIT license
 """
 
+from commands.repeat import Repeat
 from commands.now_playing import NowPlaying
 from commands.queue import Queue
 from commands.skip import Skip
 from commands.stop import Stop
 from tasks.ping import Ping
-from commands.play import Music
+from commands.play import Play
 from commands.pause import Pause
 from commands.resume import Resume
 from tasks.status_loop import Status
@@ -22,9 +23,9 @@ import json
 with open('data.json', 'r') as data_file:
     data = json.load(data_file)
 
-client = commands.Bot(command_prefix="!")
+client = commands.Bot(command_prefix="i")
 
-cogs = [Ready, Ping, Status, Music, Pause, Resume, Stop, Skip, Queue, NowPlaying]
+cogs = [Ready, Ping, Status, Play, Pause, Resume, Stop, Skip, Queue, NowPlaying, Repeat]
 
 for i in range(len(cogs)):
     cogs[i].setup(client)

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext, cog_ext
-from discord_slash.utils.manage_commands import create_choice, create_option, SlashCommandOptionType
+from discord_slash.utils.manage_commands import create_choice, create_option
 from discord_components import DiscordComponents, Button, ButtonStyle
 import random
 import datetime
@@ -18,27 +18,20 @@ from utils.music_handling.play_music import play_music
 
 from write_log import write_log
 
-class Music(commands.Cog):
+class Play(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.slash = SlashCommand(self.client, sync_commands=True)
 
     def setup(client):
-        client.add_cog(Music(client))
+        client.add_cog(Play(client))
 
-    @cog_ext.cog_slash(
-        name="play",
-        description="Начнем музыкальную ночь!",
-        options=[
-            create_option(
-                name="url",
-                description="Хочешь что-то конкретное?",
-                option_type=SlashCommandOptionType.STRING,
-                required=False
-            )
-        ]
-    )
-    async def play(self, ctx: SlashContext, *args):
+    # @cog_ext.cog_slash(
+    #     name="play",
+    #     description="Начнем музыкальную ночь!"
+    # )
+    @commands.command()
+    async def play(self, ctx, *args):
         command_log("play", ctx)
         write_log(False, f'{ctx.author} tried to execute /play command')
         now = datetime.datetime.now()

@@ -11,7 +11,8 @@ from write_log import write_log
 class Ready(commands.Cog, name='Ready'):
     def __init__(self, client):
         self.client = client
-        with open('F:\Vse\Bots\IrohBot\data.json', 'r') as data_file:
+        dirname = os.path.dirname(__file__)
+        with open(os.path.join(dirname, '../data.json'), 'r') as data_file:
             self.data = json.load(data_file)
 
     def setup(client):
