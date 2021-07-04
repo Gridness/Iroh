@@ -1,3 +1,5 @@
+import discord
+from utils.singletons.song_queue_singleton import SongQueue
 from discord.ext import commands
 from discord_slash import SlashContext, cog_ext
 
@@ -16,4 +18,4 @@ class NowPlaying(commands.Cog):
         description="Хочешь узнать, под что сейчас пляшем?"
     )
     async def now_playing(self, ctx: SlashContext):
-        await ctx.send(build_embed())
+        await ctx.send(build_embed(self.client, "Сейчас играет", SongQueue().song_queue[0][0]['title'], discord.Color.orange, False, False))

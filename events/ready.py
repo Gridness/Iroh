@@ -1,4 +1,3 @@
-from write_log import write_log
 from tasks.status_loop import Status
 from tasks.ping import Ping
 from discord.ext import commands
@@ -6,6 +5,8 @@ import json
 import datetime
 import os
 
+from clean_log import clean_log
+from write_log import write_log
 
 class Ready(commands.Cog, name='Ready'):
     def __init__(self, client):
@@ -18,6 +19,7 @@ class Ready(commands.Cog, name='Ready'):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        clean_log()
         now = datetime.datetime.now()
         clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
         clear_console()
