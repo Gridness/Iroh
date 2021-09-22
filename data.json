@@ -2,11 +2,12 @@
     "meta" : {
         "name": "Iroh",
         "version": "4.0.0",
-        "dev": "Gridness"
+        "dev": "Gridness, Will0376"
     },
     "token": "NzE0MTQ2MjM2NDA3NjExMzky.Xsqagg.gtTSyzUQmo2PHxOUaiyLyC_R-jQ",
     "guilds": {
         "BaSingSe": "699340159442747412",
-        "Degrad": "327384457193717761"
+        "Degrad": "327384457193717761",
+        "ISP" : "749961992323727370"
     }
 }
