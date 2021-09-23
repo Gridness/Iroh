@@ -9,7 +9,7 @@ from clean_log import clean_log
 from write_log import write_log
 
 class Ready(commands.Cog, name='Ready'):
-    def __init__(self, client):
+    def __init__(self, client, data):
         self.client = client
         dirname = os.path.dirname(__file__)
         with open(os.path.join(dirname, '../data.json'), 'r') as data_file:
